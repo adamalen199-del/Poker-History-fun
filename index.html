@@ -1,133 +1,282 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Friday Night Poker</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  :root {
-    --bg: #0a0a0a; --card: #141414; --card2: #1e1e1e;
-    --border: #2a2a2a; --accent: #c8f135; --text: #ffffff;
-    --muted: #888; --red: #e74c3c; --green: #2ecc71;
-  }
-  html, body { width:100%; height:100%; background:var(--bg); color:var(--text); font-family:'Courier New',monospace; overflow:hidden; }
-  .app { width:100vw; height:100vh; height:100dvh; display:flex; flex-direction:column; overflow:hidden; }
-.header { background:var(--card); border-bottom:1px solid var(--border); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
-.header-title { font-size:13px; font-weight:bold; letter-spacing:2px; color:var(--accent); }
-.icon-btn { width:36px; height:36px; border-radius:50%; border:1px solid var(--border); background:var(--card2); color:var(--text); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.stats-bar { background:var(--card); border-bottom:1px solid var(--border); display:grid; grid-template-columns:1fr 1fr 1fr; flex-shrink:0; }
-.stat { padding:10px 14px; border-right:1px solid var(--border); }
-.stat:last-child { border-right:none; }
-.stat-label { font-size:9px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-bottom:3px; }
-.stat-value { font-size:20px; font-weight:bold; color:var(--accent); }
-.stat-value.white { color:var(--text); }
-.game-info { background:var(--card2); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; gap:16px; align-items:center; flex-shrink:0; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --bg: #0a1a0a;
+  --felt: #0d2b0d;
+  --felt2: #0f3410;
+  --gold: #c9a84c;
+  --gold2: #f0d080;
+  --gold3: #8b6914;
+  --green: #2ecc71;
+  --green2: #1a7a40;
+  --red: #c0392b;
+  --text: #f0e6cc;
+  --muted: #7a9a7a;
+  --border: #2a5a2a;
+  --border-gold: #5a4010;
+  --card-bg: #081808;
+}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+html, body { width:100%; height:100%; background:var(–bg); color:var(–text); overflow:hidden; font-family:‘Crimson Text’, Georgia, serif; }
+.app { width:100vw; height:100vh; height:100dvh; display:flex; flex-direction:column; overflow:hidden; background: radial-gradient(ellipse at top, #1a3a1a 0%, #0a1a0a 60%); }
+
+/* HEADER */
+.header {
+background: linear-gradient(180deg, #1a0f00 0%, #0d1a0d 100%);
+border-bottom: 2px solid var(–gold3);
+padding: 14px 16px 10px;
+display: flex; align-items: center; justify-content: space-between;
+flex-shrink: 0;
+box-shadow: 0 2px 20px rgba(201,168,76,0.15);
+}
+.header-left { display:flex; align-items:center; gap:10px; }
+.spade-icon { font-size:28px; filter: drop-shadow(0 0 8px rgba(201,168,76,0.6)); }
+.header-title {
+font-family:‘Cinzel’, serif; font-size:20px; font-weight:700;
+background: linear-gradient(180deg, var(–gold2) 0%, var(–gold) 50%, var(–gold3) 100%);
+-webkit-background-clip:text; -webkit-text-fill-color:transparent;
+text-shadow: none; letter-spacing:2px; line-height:1.1;
+}
+.header-subtitle { font-size:9px; letter-spacing:3px; color:var(–muted); text-transform:uppercase; }
+.reset-btn {
+width:38px; height:38px; border-radius:50%;
+border:1px solid var(–gold3);
+background: radial-gradient(circle, #2a1a00 0%, #1a0f00 100%);
+color:var(–gold); font-size:18px; cursor:pointer;
+display:flex; align-items:center; justify-content:center;
+box-shadow: 0 0 10px rgba(201,168,76,0.2);
+}
+
+/* STATS */
+.stats-bar { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:10px 12px; flex-shrink:0; }
+.stat-card {
+background: linear-gradient(135deg, #0f2a0f 0%, #081808 100%);
+border:1px solid var(–gold3); border-radius:10px; padding:10px 8px;
+text-align:center;
+box-shadow: inset 0 1px 0 rgba(201,168,76,0.1), 0 2px 8px rgba(0,0,0,0.4);
+}
+.stat-label { font-size:8px; letter-spacing:2px; color:var(–gold); text-transform:uppercase; font-family:‘Cinzel’,serif; margin-bottom:4px; }
+.stat-value { font-size:22px; font-weight:700; color:var(–green); font-family:‘Cinzel’,serif; text-shadow:0 0 12px rgba(46,204,113,0.4); }
+.stat-value.white { color:var(–gold2); text-shadow:0 0 12px rgba(240,208,128,0.4); }
+
+/* GAME INFO */
+.game-info {
+background: linear-gradient(180deg, #0a200a 0%, #061406 100%);
+border-top:1px solid var(–border-gold); border-bottom:1px solid var(–border-gold);
+padding:10px 14px; display:flex; gap:12px; align-items:center; flex-shrink:0;
+}
 .game-field { display:flex; flex-direction:column; gap:2px; flex:1; }
-.game-field label { font-size:9px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
-.game-field input { background:transparent; border:none; color:var(--text); font-family:'Courier New',monospace; font-size:13px; outline:none; width:100%; }
-.add-player-bar { background:var(--card); border-bottom:1px solid var(--border); padding:10px 16px; display:flex; gap:8px; flex-shrink:0; }
-.add-player-bar select { flex:1; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'Courier New',monospace; font-size:13px; padding:8px 10px; outline:none; appearance:none; -webkit-appearance:none; cursor:pointer; }
-.add-player-bar select option { background:var(--card2); color:var(--text); }
-.buyin-input { width:70px !important; flex:none !important; text-align:center; background:var(--card2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'Courier New',monospace; font-size:13px; padding:8px 10px; outline:none; }
-.add-btn { background:var(--accent); color:#000; border:none; border-radius:6px; font-family:'Courier New',monospace; font-size:11px; font-weight:bold; letter-spacing:1px; padding:8px 14px; cursor:pointer; white-space:nowrap; text-transform:uppercase; }
-.custom-bar { background:var(--card); border-bottom:1px solid var(--border); padding:8px 16px; display:none; gap:8px; flex-shrink:0; }
+.game-field label { font-size:8px; letter-spacing:2px; color:var(–gold); text-transform:uppercase; font-family:‘Cinzel’,serif; }
+.game-field input { background:transparent; border:none; color:var(–gold2); font-family:‘Cinzel’,serif; font-size:15px; font-weight:600; outline:none; width:100%; }
+.game-field input::placeholder { color:var(–muted); }
+
+/* ADD PLAYER BAR */
+.add-player-bar {
+background:#061406; border-bottom:1px solid var(–border);
+padding:10px 12px; display:flex; gap:8px; flex-shrink:0;
+}
+.add-player-bar select {
+flex:1; background:#0a200a; border:1px solid var(–border-gold); border-radius:8px;
+color:var(–text); font-family:‘Crimson Text’,serif; font-size:15px; padding:8px 10px;
+outline:none; appearance:none; -webkit-appearance:none; cursor:pointer;
+}
+.buyin-input {
+width:65px !important; flex:none !important; text-align:center;
+background:#0a200a; border:1px solid var(–border-gold); border-radius:8px;
+color:var(–gold2); font-family:‘Cinzel’,serif; font-size:13px; padding:8px 6px; outline:none;
+}
+.add-btn {
+background: linear-gradient(180deg, #1a6a30 0%, #0d4020 100%);
+color:var(–gold2); border:1px solid var(–gold3); border-radius:8px;
+font-family:‘Cinzel’,serif; font-size:11px; font-weight:600; letter-spacing:1px;
+padding:8px 14px; cursor:pointer; white-space:nowrap;
+box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.custom-bar { background:#061406; border-bottom:1px solid var(–border); padding:8px 12px; display:none; gap:8px; flex-shrink:0; }
 .custom-bar.visible { display:flex; }
-.custom-bar input { flex:1; background:var(--card2); border:1px solid var(--accent); border-radius:6px; color:var(--text); font-family:'Courier New',monospace; font-size:13px; padding:8px 12px; outline:none; }
-.custom-bar input::placeholder { color:var(--muted); }
-.new-player-row { background:var(--card); border-bottom:1px solid var(--border); padding:5px 16px; display:flex; justify-content:flex-end; flex-shrink:0; }
-.new-player-btn { background:none; border:1px dashed var(--border); border-radius:6px; color:var(--muted); font-family:'Courier New',monospace; font-size:10px; padding:4px 12px; cursor:pointer; letter-spacing:1px; }
-.new-player-btn.active { border-color:var(--accent); color:var(--accent); }
-.tabs { display:flex; background:var(--card); border-bottom:1px solid var(--border); flex-shrink:0; }
-.tab { flex:1; padding:10px; text-align:center; font-size:10px; letter-spacing:1px; color:var(--muted); cursor:pointer; text-transform:uppercase; border-bottom:2px solid transparent; transition:all 0.2s; }
-.tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.custom-bar input { flex:1; background:#0a200a; border:1px solid var(–gold3); border-radius:8px; color:var(–text); font-family:‘Crimson Text’,serif; font-size:14px; padding:8px 12px; outline:none; }
+
+.new-player-row { background:#061406; border-bottom:1px solid var(–border); padding:5px 14px; display:flex; justify-content:flex-end; flex-shrink:0; }
+.new-player-btn { background:none; border:1px dashed var(–border); border-radius:6px; color:var(–muted); font-family:‘Cinzel’,serif; font-size:9px; padding:4px 12px; cursor:pointer; letter-spacing:1px; }
+.new-player-btn.active { border-color:var(–gold3); color:var(–gold); }
+
+/* TABS */
+.tabs { display:flex; background:#061406; border-bottom:2px solid var(–border-gold); flex-shrink:0; }
+.tab { flex:1; padding:10px 4px; text-align:center; font-size:10px; letter-spacing:1px; color:var(–muted); cursor:pointer; text-transform:uppercase; font-family:‘Cinzel’,serif; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+.tab.active { color:var(–gold); border-bottom-color:var(–gold); }
+
 .tab-content { flex:1; overflow:hidden; display:none; flex-direction:column; }
 .tab-content.active { display:flex; }
-.players-header { display:grid; grid-template-columns:44px 1fr 55px 86px 60px 28px; padding:8px 12px; background:var(--card); border-bottom:1px solid var(--border); flex-shrink:0; }
-.players-header span { font-size:9px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+
+/* PLAYERS LIST */
+.players-header { display:grid; grid-template-columns:40px 1fr 50px 82px 58px 26px; padding:8px 12px; background:#040e04; border-bottom:1px solid var(–border); flex-shrink:0; }
+.players-header span { font-size:8px; letter-spacing:1px; color:var(–gold); text-transform:uppercase; font-family:‘Cinzel’,serif; }
 .players-header span:nth-child(3), .players-header span:nth-child(4), .players-header span:nth-child(5) { text-align:center; }
-.players-list { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--bg); }
-.player-row { display:grid; grid-template-columns:44px 1fr 55px 86px 60px 28px; align-items:center; padding:10px 12px; border-bottom:1px solid var(--border); background:var(--bg); }
-.avatar { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:bold; color:#000; flex-shrink:0; }
-.player-info { overflow:hidden; padding-left:2px; }
-.player-name { font-size:14px; font-weight:bold; color:#fff; white-space:nowrap; }
-.rebuy-badge { display:inline-block; background:#b8860b; color:#000; font-size:9px; font-weight:bold; padding:1px 5px; border-radius:10px; margin-top:2px; }
-.buyin-cell { text-align:center; font-size:12px; color:var(--muted); }
-.rebuys-cell { display:flex; align-items:center; justify-content:center; gap:3px; }
-.rebuy-btn { width:26px; height:26px; border-radius:4px; border:1px solid var(--border); background:var(--card2); color:var(--text); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.rebuy-count { font-size:11px; color:var(--accent); min-width:16px; text-align:center; }
-.total-in-cell { text-align:center; font-size:13px; font-weight:bold; }
-.remove-btn { background:none; border:none; color:var(--muted); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.cashout-tab { flex:1; overflow-y:auto; padding:12px 16px; display:flex; flex-direction:column; gap:10px; }
-.cashout-card { background:var(--card2); border:1px solid var(--border); border-radius:10px; padding:12px; display:flex; align-items:center; gap:10px; }
-.cashout-info { flex:1; min-width:0; }
-.cashout-name { font-size:15px; font-weight:bold; margin-bottom:2px; color:#fff; }
-.cashout-sub { font-size:11px; color:var(--muted); }
-.cashout-input { width:90px; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'Courier New',monospace; font-size:14px; padding:6px 10px; outline:none; text-align:right; flex-shrink:0; }
-.cashout-pnl { font-size:13px; font-weight:bold; min-width:58px; text-align:right; flex-shrink:0; }
-.pnl-positive { color:var(--green); }
-.pnl-negative { color:var(--red); }
-.payout-tab { flex:1; overflow-y:auto; padding:12px 16px; }
-.payout-header-label { font-size:9px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; }
-.payout-card { background:var(--card2); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
-.payout-from { flex:1; }
-.payout-from-name { font-size:15px; font-weight:bold; color:var(--red); }
-.payout-from-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+.players-list { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.player-row {
+display:grid; grid-template-columns:40px 1fr 50px 82px 58px 26px;
+align-items:center; padding:10px 12px;
+border-bottom:1px solid rgba(42,90,42,0.4);
+background: linear-gradient(90deg, rgba(15,52,16,0.3) 0%, rgba(8,24,8,0.3) 100%);
+}
+.player-row:nth-child(even) { background: linear-gradient(90deg, rgba(8,24,8,0.5) 0%, rgba(6,20,6,0.5) 100%); }
+.avatar { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#000; flex-shrink:0; border:2px solid rgba(201,168,76,0.3); font-family:‘Cinzel’,serif; }
+.player-name { font-size:15px; font-weight:600; color:var(–text); font-family:‘Crimson Text’,serif; white-space:nowrap; padding-left:4px; }
+.rebuy-badge { display:inline-block; background:linear-gradient(135deg,#8b6914,#c9a84c); color:#000; font-size:8px; font-weight:700; padding:1px 5px; border-radius:10px; margin-top:2px; font-family:‘Cinzel’,serif; }
+.buyin-cell { text-align:center; font-size:12px; color:var(–muted); }
+.rebuys-cell { display:flex; align-items:center; justify-content:center; gap:4px; }
+.rebuy-btn {
+width:24px; height:24px; border-radius:5px;
+border:1px solid var(–border-gold);
+background: linear-gradient(180deg, #1a1000 0%, #0d0800 100%);
+color:var(–gold); font-size:16px; cursor:pointer;
+display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.rebuy-count { font-size:12px; color:var(–gold2); min-width:16px; text-align:center; font-family:‘Cinzel’,serif; }
+.total-in-cell { text-align:center; font-size:13px; font-weight:700; color:var(–green); font-family:‘Cinzel’,serif; }
+.remove-btn { background:none; border:none; color:#5a3a3a; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+/* CASHOUT */
+.cashout-tab { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.cashout-card {
+background: linear-gradient(135deg, #0f2a0f 0%, #081808 100%);
+border:1px solid var(–border-gold); border-radius:12px; padding:12px;
+display:flex; align-items:center; gap:10px;
+box-shadow: inset 0 1px 0 rgba(201,168,76,0.08);
+}
+.cashout-name { font-size:16px; font-weight:600; color:var(–text); font-family:‘Crimson Text’,serif; }
+.cashout-sub { font-size:11px; color:var(–muted); }
+.cashout-input {
+width:90px; background:#040e04; border:1px solid var(–gold3); border-radius:8px;
+color:var(–gold2); font-family:‘Cinzel’,serif; font-size:14px;
+padding:6px 10px; outline:none; text-align:right; flex-shrink:0;
+}
+.cashout-pnl { font-size:14px; font-weight:700; min-width:58px; text-align:right; flex-shrink:0; font-family:‘Cinzel’,serif; }
+.pnl-positive { color:var(–green); text-shadow:0 0 8px rgba(46,204,113,0.4); }
+.pnl-negative { color:var(–red); text-shadow:0 0 8px rgba(192,57,43,0.4); }
+
+/* PAYOUT */
+.payout-tab { flex:1; overflow-y:auto; padding:12px; }
+.payout-header-label { font-size:9px; letter-spacing:2px; color:var(–gold); text-transform:uppercase; margin-bottom:12px; font-family:‘Cinzel’,serif; }
+.payout-card {
+background: linear-gradient(135deg, #0f2a0f 0%, #081808 100%);
+border:1px solid var(–border-gold); border-radius:12px; padding:14px; margin-bottom:10px;
+display:flex; align-items:center; gap:8px;
+}
+.payout-from-name { font-size:16px; font-weight:600; color:var(–red); font-family:‘Crimson Text’,serif; }
+.payout-from-label { font-size:9px; color:var(–muted); text-transform:uppercase; letter-spacing:1px; font-family:‘Cinzel’,serif; }
 .payout-to { flex:1; text-align:right; }
-.payout-to-name { font-size:15px; font-weight:bold; color:var(--green); }
-.payout-to-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-.payout-amount { font-size:20px; font-weight:bold; color:var(--accent); text-align:center; min-width:65px; }
-.no-payout { text-align:center; color:var(--muted); padding:40px 20px; font-size:13px; }
-.summary-box { background:var(--card2); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:16px; }
-.summary-row { display:flex; justify-content:space-between; padding:4px 0; font-size:13px; }
-.summary-row span:first-child { color:var(--muted); }
-.history-tab { flex:1; overflow-y:auto; padding:12px 16px; display:flex; flex-direction:column; gap:12px; }
-.history-empty { text-align:center; color:var(--muted); padding:40px 20px; font-size:13px; line-height:1.8; }
-.history-card { background:var(--card2); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-.history-card-header { padding:12px 14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
-.history-date { font-size:10px; color:var(--muted); letter-spacing:1px; margin-top:3px; }
-.history-game-name { font-size:13px; font-weight:bold; color:#fff; }
-.history-pot { font-size:14px; font-weight:bold; color:var(--accent); }
-.history-chevron { color:var(--muted); font-size:11px; transition:transform 0.2s; margin-left:6px; }
+.payout-to-name { font-size:16px; font-weight:600; color:var(–green); font-family:‘Crimson Text’,serif; }
+.payout-to-label { font-size:9px; color:var(–muted); text-transform:uppercase; letter-spacing:1px; font-family:‘Cinzel’,serif; }
+.payout-amount { font-size:22px; font-weight:700; color:var(–gold2); text-align:center; min-width:65px; font-family:‘Cinzel’,serif; text-shadow:0 0 10px rgba(240,208,128,0.4); }
+.no-payout { text-align:center; color:var(–muted); padding:40px 20px; font-size:14px; font-style:italic; }
+.summary-box { background: linear-gradient(135deg,#0f2a0f,#081808); border:1px solid var(–border-gold); border-radius:12px; padding:14px; margin-bottom:14px; }
+.summary-row { display:flex; justify-content:space-between; padding:5px 0; font-size:14px; border-bottom:1px solid rgba(42,90,42,0.3); }
+.summary-row:last-child { border-bottom:none; }
+.summary-row span:first-child { color:var(–muted); font-style:italic; }
+
+/* HISTORY */
+.history-tab { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.history-empty { text-align:center; color:var(–muted); padding:40px 20px; font-size:15px; line-height:1.8; font-style:italic; }
+.history-card { background:linear-gradient(135deg,#0f2a0f,#081808); border:1px solid var(–border-gold); border-radius:12px; overflow:hidden; }
+.history-card-header { padding:14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+.history-game-name { font-size:16px; font-weight:600; color:var(–gold2); font-family:‘Cinzel’,serif; }
+.history-date { font-size:10px; color:var(–muted); letter-spacing:1px; margin-top:3px; }
+.history-pot { font-size:18px; font-weight:700; color:var(–green); font-family:‘Cinzel’,serif; text-shadow:0 0 8px rgba(46,204,113,0.3); }
+.history-chevron { color:var(–gold3); font-size:12px; margin-left:6px; transition:transform 0.2s; }
 .history-chevron.open { transform:rotate(90deg); }
-.history-body { display:none; border-top:1px solid var(--border); }
-.history-summary { padding:10px 14px; border-bottom:1px solid var(--border); display:flex; gap:20px; }
-.history-stat-label { font-size:9px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:2px; }
-.history-stat-value { font-size:13px; font-weight:bold; color:#fff; }
+.history-body { display:none; border-top:1px solid var(–border-gold); }
+.history-summary { padding:10px 14px; border-bottom:1px solid rgba(42,90,42,0.4); display:flex; gap:20px; }
+.history-stat-label { font-size:8px; color:var(–gold); letter-spacing:1px; text-transform:uppercase; font-family:‘Cinzel’,serif; margin-bottom:2px; }
+.history-stat-value { font-size:14px; font-weight:600; color:var(–text); font-family:‘Crimson Text’,serif; }
 .history-players { padding:10px 14px; display:flex; flex-direction:column; gap:8px; }
 .history-player-row { display:flex; align-items:center; gap:8px; }
-.history-player-name { flex:1; font-size:13px; color:#fff; }
-.history-player-in { font-size:11px; color:var(--muted); min-width:45px; text-align:right; }
-.history-player-pnl { font-size:13px; font-weight:bold; min-width:55px; text-align:right; }
-.history-clear-btn { background:none; border:1px solid var(--red); border-radius:6px; color:var(--red); font-family:'Courier New',monospace; font-size:11px; padding:10px; cursor:pointer; letter-spacing:1px; width:100%; margin-top:4px; }
-.save-indicator { position:fixed; bottom:12px; right:12px; background:var(--card2); border:1px solid var(--border); border-radius:20px; padding:5px 12px; font-size:10px; color:var(--muted); letter-spacing:1px; opacity:0; transition:opacity 0.4s; pointer-events:none; z-index:100; }
+.history-player-name { flex:1; font-size:14px; color:var(–text); font-family:‘Crimson Text’,serif; }
+.history-player-in { font-size:11px; color:var(–muted); min-width:45px; text-align:right; }
+.history-player-pnl { font-size:13px; font-weight:700; min-width:55px; text-align:right; font-family:‘Cinzel’,serif; }
+.history-clear-btn {
+background: linear-gradient(180deg,#3a0808,#1a0404);
+border:1px solid #6a1010; border-radius:10px; color:#e07070;
+font-family:‘Cinzel’,serif; font-size:11px; padding:12px; cursor:pointer;
+letter-spacing:1px; width:100%; margin-top:4px;
+}
+
+/* PIN MODAL */
+.pin-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:200; display:none; align-items:center; justify-content:center; }
+.pin-overlay.show { display:flex; }
+.pin-modal {
+background: linear-gradient(180deg, #1a0f00 0%, #0d1a0d 100%);
+border:2px solid var(–gold3); border-radius:20px; padding:28px 22px;
+width:290px; text-align:center;
+box-shadow: 0 0 40px rgba(201,168,76,0.2);
+}
+.pin-title { font-family:‘Cinzel’,serif; font-size:14px; font-weight:700; letter-spacing:3px; background:linear-gradient(180deg,var(–gold2),var(–gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:4px; }
+.pin-subtitle { font-size:12px; color:var(–muted); margin-bottom:22px; font-style:italic; }
+.pin-dots { display:flex; justify-content:center; gap:12px; margin-bottom:22px; }
+.pin-dot { width:14px; height:14px; border-radius:50%; border:2px solid var(–border-gold); background:transparent; transition:all 0.15s; }
+.pin-dot.filled { background:var(–gold); border-color:var(–gold); box-shadow:0 0 8px rgba(201,168,76,0.6); }
+.pin-keypad { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.pin-key {
+background: linear-gradient(180deg,#1a2a1a,#0d1a0d);
+border:1px solid var(–border-gold); border-radius:12px;
+color:var(–gold2); font-family:‘Cinzel’,serif; font-size:20px;
+padding:15px; cursor:pointer; transition:all 0.1s;
+box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
+}
+.pin-key:active { background:linear-gradient(180deg,#0d1a0d,#061006); transform:scale(0.96); }
+.pin-key.del { font-size:16px; color:var(–muted); }
+.pin-key.cancel { font-size:10px; color:var(–muted); letter-spacing:1px; }
+.pin-error { color:var(–red); font-size:11px; margin-top:14px; min-height:16px; letter-spacing:2px; font-family:‘Cinzel’,serif; }
+
+/* SAVE INDICATOR */
+.save-indicator { position:fixed; bottom:14px; right:14px; background:#0f2a0f; border:1px solid var(–gold3); border-radius:20px; padding:6px 14px; font-size:10px; color:var(–gold); letter-spacing:1px; opacity:0; transition:opacity 0.4s; pointer-events:none; z-index:100; font-family:‘Cinzel’,serif; }
 .save-indicator.show { opacity:1; }
+
 ::-webkit-scrollbar { width:3px; }
 ::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+::-webkit-scrollbar-thumb { background:var(–border-gold); border-radius:2px; }
 </style>
+
 </head>
 <body>
 <div class="app">
+
   <div class="header">
-    <div class="header-title">🃏 Poker Tracker</div>
-    <button class="icon-btn" onclick="resetGame()">↺</button>
+    <div class="header-left">
+      <div class="spade-icon">&#9824;</div>
+      <div>
+        <div class="header-title">Poker<br>Tracker</div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetGame()">&#8635;</button>
   </div>
+
   <div class="stats-bar">
-    <div class="stat"><div class="stat-label">Pot</div><div class="stat-value" id="stat-pot">$0</div></div>
-    <div class="stat"><div class="stat-label">Players</div><div class="stat-value white" id="stat-players">0</div></div>
-    <div class="stat"><div class="stat-label">Remaining</div><div class="stat-value" id="stat-remaining">$0</div></div>
+    <div class="stat-card"><div class="stat-label">Pot</div><div class="stat-value" id="stat-pot">$0</div></div>
+    <div class="stat-card"><div class="stat-label">Players</div><div class="stat-value white" id="stat-players">0</div></div>
+    <div class="stat-card"><div class="stat-label">Remaining</div><div class="stat-value" id="stat-remaining">$0</div></div>
   </div>
+
   <div class="game-info">
     <div class="game-field">
       <label>Game</label>
       <input type="text" id="game-name" value="Friday Night Game" oninput="saveState()" />
     </div>
-    <div class="game-field" style="flex:0 0 80px">
+    <div class="game-field" style="flex:0 0 90px">
       <label>Buy-in $</label>
       <input type="number" id="default-buyin" value="100" oninput="saveState()" />
     </div>
   </div>
+
   <div class="add-player-bar">
     <select id="player-select">
       <option value="">Select player...</option>
@@ -138,233 +287,303 @@
       <option>Gopi</option><option>Vijo</option><option>Kasi</option><option>Leela</option>
     </select>
     <input type="number" class="buyin-input" id="new-player-buyin" placeholder="$" />
-    <button class="add-btn" onclick="addPlayer()">+ Add</button>
+    <button class="add-btn" onclick="addPlayer()">+ ADD</button>
   </div>
+
   <div class="custom-bar" id="custom-bar">
     <input type="text" id="custom-name" placeholder="Type new player name..." />
-    <button class="add-btn" onclick="addCustomPlayer()">+ Add</button>
+    <button class="add-btn" onclick="addCustomPlayer()">+ ADD</button>
   </div>
+
   <div class="new-player-row">
     <button class="new-player-btn" id="toggle-btn" onclick="toggleCustom()">+ NEW PLAYER</button>
   </div>
+
   <div class="tabs">
     <div class="tab active" onclick="switchTab('players')">Players</div>
     <div class="tab" onclick="switchTab('cashout')">Cash Out</div>
     <div class="tab" onclick="switchTab('payout')">Payouts</div>
     <div class="tab" onclick="switchTab('history')">History</div>
   </div>
+
   <div class="tab-content active" id="tab-players">
     <div class="players-header">
       <span></span><span>Player</span><span>Buy-in</span><span>Rebuys</span><span>Total</span><span></span>
     </div>
     <div class="players-list" id="players-list"></div>
   </div>
+
   <div class="tab-content" id="tab-cashout">
     <div class="cashout-tab" id="cashout-list"></div>
   </div>
+
   <div class="tab-content" id="tab-payout">
     <div class="payout-tab" id="payout-list"></div>
   </div>
+
   <div class="tab-content" id="tab-history">
     <div class="history-tab" id="history-list"></div>
   </div>
+
 </div>
-<div class="save-indicator" id="save-indicator">💾 SAVED</div>
+
+<div class="save-indicator" id="save-indicator">&#9824; SAVED</div>
+
+<!-- PIN MODAL -->
+
+<div class="pin-overlay" id="pin-overlay">
+  <div class="pin-modal">
+    <div class="pin-title">&#128274; REBUY PIN</div>
+    <div class="pin-subtitle">Enter PIN to add rebuy</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+      <div class="pin-dot" id="dot-4"></div>
+      <div class="pin-dot" id="dot-5"></div>
+    </div>
+    <div class="pin-keypad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key cancel" onclick="pinCancel()">CANCEL</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key del" onclick="pinDelete()">&#9003;</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
 <script>
-  const COLORS = ['#c8f135','#e74c3c','#3498db','#9b59b6','#e67e22','#1abc9c','#f39c12','#2ecc71','#e91e63','#00bcd4','#ff6b6b','#4ecdc4','#45b7d1','#96ceb4','#ffeaa7','#dda0dd'];
+  const COLORS = ['#c9a84c','#e74c3c','#3498db','#9b59b6','#e67e22','#1abc9c','#f39c12','#2ecc71','#e91e63','#00bcd4','#ff6b6b','#4ecdc4','#45b7d1','#96ceb4','#c8f135','#dda0dd'];
   const STORAGE_KEY = 'friday-night-poker-state';
   const HISTORY_KEY = 'friday-night-poker-history';
+  const REBUY_PIN   = '244628';
+
   let players = [], cashouts = {}, activeTab = 'players', customOpen = false, saveTimer = null;
   let gameHistory = [];
+  let pinEntry = '', pinTargetId = null;
 
-  function saveState() {
-    const state = { players, cashouts, activeTab, gameName: document.getElementById('game-name').value, defaultBuyin: document.getElementById('default-buyin').value };
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
-    clearTimeout(saveTimer);
-    const el = document.getElementById('save-indicator');
-    el.classList.add('show');
-    saveTimer = setTimeout(() => el.classList.remove('show'), 1200);
+  // PIN
+  function showPin(id) { pinEntry=''; pinTargetId=id; updatePinDots(); document.getElementById('pin-error').textContent=''; document.getElementById('pin-overlay').classList.add('show'); }
+  function pinKey(k) {
+    if (pinEntry.length>=6) return;
+    pinEntry+=k; updatePinDots();
+    if (pinEntry.length===6) {
+      setTimeout(()=>{
+        if (pinEntry===REBUY_PIN) {
+          document.getElementById('pin-overlay').classList.remove('show');
+          const p=players.find(p=>p.id===pinTargetId);
+          if(p){p.rebuys++;render();saveState();}
+        } else {
+          document.getElementById('pin-error').textContent='INCORRECT PIN';
+          pinEntry=''; updatePinDots();
+        }
+      },150);
+    }
   }
+  function pinDelete() { pinEntry=pinEntry.slice(0,-1); updatePinDots(); document.getElementById('pin-error').textContent=''; }
+  function pinCancel() { pinEntry=''; pinTargetId=null; document.getElementById('pin-overlay').classList.remove('show'); }
+  function updatePinDots() { for(let i=0;i<6;i++) document.getElementById('dot-'+i).classList.toggle('filled',i<pinEntry.length); }
 
+  // SAVE/LOAD
+  function saveState() {
+    const state={players,cashouts,activeTab,gameName:document.getElementById('game-name').value,defaultBuyin:document.getElementById('default-buyin').value};
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}
+    clearTimeout(saveTimer);
+    const el=document.getElementById('save-indicator');
+    el.classList.add('show');
+    saveTimer=setTimeout(()=>el.classList.remove('show'),1200);
+  }
   function loadState() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      const s = JSON.parse(raw);
-      players = s.players || []; cashouts = s.cashouts || {}; activeTab = s.activeTab || 'players';
-      if (s.gameName) document.getElementById('game-name').value = s.gameName;
-      if (s.defaultBuyin) document.getElementById('default-buyin').value = s.defaultBuyin;
+      const raw=localStorage.getItem(STORAGE_KEY); if(!raw) return false;
+      const s=JSON.parse(raw);
+      players=s.players||[]; cashouts=s.cashouts||{}; activeTab=s.activeTab||'players';
+      if(s.gameName) document.getElementById('game-name').value=s.gameName;
+      if(s.defaultBuyin) document.getElementById('default-buyin').value=s.defaultBuyin;
       return true;
-    } catch(e) { return false; }
+    } catch(e){return false;}
   }
-
-  function saveHistory() { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(gameHistory)); } catch(e) {} }
-  function loadHistory() { try { const raw = localStorage.getItem(HISTORY_KEY); if (raw) gameHistory = JSON.parse(raw); } catch(e) { gameHistory = []; } }
+  function saveHistory(){try{localStorage.setItem(HISTORY_KEY,JSON.stringify(gameHistory));}catch(e){}}
+  function loadHistory(){try{const raw=localStorage.getItem(HISTORY_KEY);if(raw)gameHistory=JSON.parse(raw);}catch(e){gameHistory=[];}}
 
   function saveGameToHistory() {
-    if (players.length === 0) return;
-    const pot = getTotalPot();
-    const gameName = document.getElementById('game-name').value || 'Friday Night Game';
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
-    const timeStr = now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
-    const playerResults = players.map(p => {
-      const tin = totalIn(p);
-      const hasOut = cashouts[p.id] !== '' && cashouts[p.id] !== null && cashouts[p.id] !== undefined;
-      const out = hasOut ? parseFloat(cashouts[p.id]) : null;
-      const pnl = hasOut ? out - tin : null;
-      return { name: p.name, color: p.color, buyin: p.buyin, rebuys: p.rebuys, totalIn: tin, cashOut: out, pnl };
+    if(players.length===0) return;
+    const pot=getTotalPot();
+    const gameName=document.getElementById('game-name').value||'Friday Night Game';
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+    const timeStr=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    const playerResults=players.map(p=>{
+      const tin=totalIn(p);
+      const hasOut=cashouts[p.id]!==''&&cashouts[p.id]!==null&&cashouts[p.id]!==undefined;
+      const out=hasOut?parseFloat(cashouts[p.id]):null;
+      const pnl=hasOut?out-tin:null;
+      return{name:p.name,color:p.color,buyin:p.buyin,rebuys:p.rebuys,totalIn:tin,cashOut:out,pnl};
     });
-    playerResults.sort((a, b) => (b.pnl || 0) - (a.pnl || 0));
-    const winner = playerResults[0];
-    gameHistory.unshift({ id: Date.now(), date: dateStr, time: timeStr, gameName, pot, playerCount: players.length, players: playerResults, winner: winner.name });
+    playerResults.sort((a,b)=>(b.pnl||0)-(a.pnl||0));
+    gameHistory.unshift({id:Date.now(),date:dateStr,time:timeStr,gameName,pot,playerCount:players.length,players:playerResults,winner:playerResults[0].name});
     saveHistory();
   }
 
-  function getInitials(name) { return name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2); }
+  function getInitials(name){return name.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
 
-  function toggleCustom() {
-    customOpen = !customOpen;
-    document.getElementById('custom-bar').classList.toggle('visible', customOpen);
-    document.getElementById('toggle-btn').classList.toggle('active', customOpen);
-    document.getElementById('toggle-btn').textContent = customOpen ? '✕ CANCEL' : '+ NEW PLAYER';
-    if (customOpen) document.getElementById('custom-name').focus();
+  function toggleCustom(){
+    customOpen=!customOpen;
+    document.getElementById('custom-bar').classList.toggle('visible',customOpen);
+    document.getElementById('toggle-btn').classList.toggle('active',customOpen);
+    document.getElementById('toggle-btn').textContent=customOpen?'✕ CANCEL':'+ NEW PLAYER';
+    if(customOpen) document.getElementById('custom-name').focus();
   }
 
-  function addPlayer() { const sel = document.getElementById('player-select'); const name = sel.value.trim(); if (!name) { sel.focus(); return; } addPlayerByName(name); sel.value = ''; }
-  function addCustomPlayer() { const input = document.getElementById('custom-name'); const name = input.value.trim(); if (!name) { input.focus(); return; } addPlayerByName(name); input.value = ''; toggleCustom(); }
+  function addPlayer(){const sel=document.getElementById('player-select');const name=sel.value.trim();if(!name){sel.focus();return;}addPlayerByName(name);sel.value='';}
+  function addCustomPlayer(){const input=document.getElementById('custom-name');const name=input.value.trim();if(!name){input.focus();return;}addPlayerByName(name);input.value='';toggleCustom();}
 
-  function addPlayerByName(name) {
-    if (players.find(p => p.name.toLowerCase() === name.toLowerCase())) { alert(name + ' is already in the game!'); return; }
-    const defaultBuyin = parseFloat(document.getElementById('default-buyin').value) || 100;
-    const buyin = parseFloat(document.getElementById('new-player-buyin').value) || defaultBuyin;
-    const color = COLORS[players.length % COLORS.length];
-    const id = Date.now() + Math.random();
-    players.push({ id, name, buyin, rebuys: 0, color });
-    cashouts[id] = '';
-    document.getElementById('new-player-buyin').value = '';
-    render(); saveState();
+  function addPlayerByName(name){
+    if(players.find(p=>p.name.toLowerCase()===name.toLowerCase())){alert(name+' is already in the game!');return;}
+    const defaultBuyin=parseFloat(document.getElementById('default-buyin').value)||100;
+    const buyin=parseFloat(document.getElementById('new-player-buyin').value)||defaultBuyin;
+    const color=COLORS[players.length%COLORS.length];
+    const id=Date.now()+Math.random();
+    players.push({id,name,buyin,rebuys:0,color});
+    cashouts[id]='';
+    document.getElementById('new-player-buyin').value='';
+    render();saveState();
   }
 
-  function switchTab(tab) {
-    activeTab = tab;
-    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['players','cashout','payout','history'][i] === tab));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    if (tab === 'payout') renderPayouts();
-    if (tab === 'cashout') renderCashouts();
-    if (tab === 'history') renderHistory();
+  function switchTab(tab){
+    activeTab=tab;
+    document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['players','cashout','payout','history'][i]===tab));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+    if(tab==='payout') renderPayouts();
+    if(tab==='cashout') renderCashouts();
+    if(tab==='history') renderHistory();
     saveState();
   }
 
-  function addRebuy(id) { const p = players.find(p => p.id === id); if (p) { p.rebuys++; render(); saveState(); } }
-  function removeRebuy(id) { const p = players.find(p => p.id === id); if (p && p.rebuys > 0) { p.rebuys--; render(); saveState(); } }
-  function removePlayer(id) { players = players.filter(p => p.id !== id); delete cashouts[id]; render(); saveState(); }
+  function addRebuy(id){showPin(id);}
+  function removeRebuy(id){const p=players.find(p=>p.id===id);if(p&&p.rebuys>0){p.rebuys--;render();saveState();}}
+  function removePlayer(id){players=players.filter(p=>p.id!==id);delete cashouts[id];render();saveState();}
 
-  function totalIn(p) { return p.buyin + (p.rebuys * p.buyin); }
-  function getTotalPot() { return players.reduce((s, p) => s + totalIn(p), 0); }
-  function getTotalCashedOut() { return players.reduce((s, p) => s + (cashouts[p.id] !== '' && cashouts[p.id] !== null ? parseFloat(cashouts[p.id]) : 0), 0); }
+  function totalIn(p){return p.buyin+(p.rebuys*p.buyin);}
+  function getTotalPot(){return players.reduce((s,p)=>s+totalIn(p),0);}
+  function getTotalCashedOut(){return players.reduce((s,p)=>s+(cashouts[p.id]!==''&&cashouts[p.id]!==null?parseFloat(cashouts[p.id]):0),0);}
 
-  function updateStats() {
-    const pot = getTotalPot();
-    document.getElementById('stat-pot').textContent = '$' + pot;
-    document.getElementById('stat-players').textContent = players.length;
-    document.getElementById('stat-remaining').textContent = '$' + (pot - getTotalCashedOut());
+  function updateStats(){
+    const pot=getTotalPot();
+    document.getElementById('stat-pot').textContent='$'+pot;
+    document.getElementById('stat-players').textContent=players.length;
+    document.getElementById('stat-remaining').textContent='$'+(pot-getTotalCashedOut());
   }
 
-  function render() { renderPlayers(); if (activeTab === 'cashout') renderCashouts(); if (activeTab === 'payout') renderPayouts(); if (activeTab === 'history') renderHistory(); updateStats(); }
+  function render(){renderPlayers();if(activeTab==='cashout')renderCashouts();if(activeTab==='payout')renderPayouts();if(activeTab==='history')renderHistory();updateStats();}
 
-  function renderPlayers() {
-    const list = document.getElementById('players-list');
-    if (players.length === 0) { list.innerHTML = '<div style="color:#555;font-size:13px;padding:24px;text-align:center">Select a player above to add them</div>'; return; }
-    list.innerHTML = players.map(p => {
-      const tin = totalIn(p);
+  function renderPlayers(){
+    const list=document.getElementById('players-list');
+    if(players.length===0){list.innerHTML='<div style="color:#4a7a4a;font-size:14px;padding:30px;text-align:center;font-style:italic">Select a player above to join the game</div>';return;}
+    list.innerHTML=players.map(p=>{
+      const tin=totalIn(p);
       return `<div class="player-row">
         <div class="avatar" style="background:${p.color}">${getInitials(p.name)}</div>
-        <div class="player-info"><div class="player-name">${p.name}</div>${p.rebuys > 0 ? `<span class="rebuy-badge">+${p.rebuys}R</span>` : ''}</div>
+        <div style="padding-left:4px">
+          <div class="player-name">${p.name}</div>
+          ${p.rebuys>0?`<span class="rebuy-badge">+${p.rebuys} REBUY</span>`:''}
+        </div>
         <div class="buyin-cell">$${p.buyin}</div>
         <div class="rebuys-cell">
-          <button class="rebuy-btn" onclick="removeRebuy(${p.id})">−</button>
-          <span class="rebuy-count">${p.rebuys > 0 ? p.rebuys : '—'}</span>
+          <button class="rebuy-btn" onclick="removeRebuy(${p.id})">&#8722;</button>
+          <span class="rebuy-count">${p.rebuys>0?p.rebuys:'&#8212;'}</span>
           <button class="rebuy-btn" onclick="addRebuy(${p.id})">+</button>
         </div>
         <div class="total-in-cell">$${tin}</div>
-        <button class="remove-btn" onclick="removePlayer(${p.id})">×</button>
+        <button class="remove-btn" onclick="removePlayer(${p.id})">&#215;</button>
       </div>`;
     }).join('');
   }
 
-  function renderCashouts() {
-    const list = document.getElementById('cashout-list');
-    if (players.length === 0) { list.innerHTML = '<div style="color:#555;font-size:13px;padding:24px;text-align:center">Add players first</div>'; return; }
-    list.innerHTML = players.map(p => {
-      const tin = totalIn(p);
-      const hasValue = cashouts[p.id] !== '' && cashouts[p.id] !== null && cashouts[p.id] !== undefined;
-      const out = hasValue ? parseFloat(cashouts[p.id]) : null;
-      const pnl = hasValue ? out - tin : null;
-      const pnlClass = hasValue ? (pnl >= 0 ? 'pnl-positive' : 'pnl-negative') : '';
-      const pnlStr = hasValue ? (pnl >= 0 ? '+$' + pnl : '-$' + Math.abs(pnl)) : '—';
+  function renderCashouts(){
+    const list=document.getElementById('cashout-list');
+    if(players.length===0){list.innerHTML='<div style="color:#4a7a4a;font-size:14px;padding:30px;text-align:center;font-style:italic">Add players first</div>';return;}
+    list.innerHTML=players.map(p=>{
+      const tin=totalIn(p);
+      const hasValue=cashouts[p.id]!==''&&cashouts[p.id]!==null&&cashouts[p.id]!==undefined;
+      const out=hasValue?parseFloat(cashouts[p.id]):null;
+      const pnl=hasValue?out-tin:null;
+      const pnlClass=hasValue?(pnl>=0?'pnl-positive':'pnl-negative'):'';
+      const pnlStr=hasValue?(pnl>=0?'+$'+pnl:'-$'+Math.abs(pnl)):'&#8212;';
       return `<div class="cashout-card">
         <div class="avatar" style="background:${p.color}">${getInitials(p.name)}</div>
-        <div class="cashout-info"><div class="cashout-name">${p.name}</div><div class="cashout-sub">Total in: $${tin}</div></div>
+        <div style="flex:1;min-width:0">
+          <div class="cashout-name">${p.name}</div>
+          <div class="cashout-sub">Total in: $${tin}</div>
+        </div>
         <input class="cashout-input" type="number" placeholder="$0" value="${cashouts[p.id]}"
-          oninput="cashouts[${p.id}]=this.value; updateStats(); saveState();" onchange="render()" />
+          oninput="cashouts[${p.id}]=this.value;updateStats();saveState();" onchange="render()" />
         <div class="cashout-pnl ${pnlClass}">${pnlStr}</div>
       </div>`;
     }).join('');
   }
 
-  function renderPayouts() {
-    const list = document.getElementById('payout-list');
-    if (players.length === 0) { list.innerHTML = '<div class="no-payout">Add players and enter cash out amounts to see payouts</div>'; return; }
-    const pot = getTotalPot(), cashedOut = getTotalCashedOut();
-    const allCashedOut = players.every(p => cashouts[p.id] !== '' && cashouts[p.id] !== null && cashouts[p.id] !== undefined);
-    const balances = players.map(p => { const out = (cashouts[p.id] !== '' && cashouts[p.id] !== null) ? parseFloat(cashouts[p.id]) : 0; return { ...p, net: out - totalIn(p), out }; });
-    let html = `<div class="summary-box">
-      <div class="summary-row"><span>Total Pot</span><span style="color:var(--accent)">$${pot}</span></div>
-      <div class="summary-row"><span>Cashed Out</span><span>$${cashedOut}</span></div>
-      <div class="summary-row"><span>Difference</span><span style="color:${pot-cashedOut===0?'var(--green)':'var(--red)'}">$${pot-cashedOut}</span></div>
+  function renderPayouts(){
+    const list=document.getElementById('payout-list');
+    if(players.length===0){list.innerHTML='<div class="no-payout">Add players and enter cash out amounts to see payouts</div>';return;}
+    const pot=getTotalPot(),cashedOut=getTotalCashedOut();
+    const allCashedOut=players.every(p=>cashouts[p.id]!==''&&cashouts[p.id]!==null&&cashouts[p.id]!==undefined);
+    const balances=players.map(p=>{const out=(cashouts[p.id]!==''&&cashouts[p.id]!==null)?parseFloat(cashouts[p.id]):0;return{...p,net:out-totalIn(p),out};});
+    let html=`<div class="summary-box">
+      <div class="summary-row"><span>Total Pot</span><span style="color:#c9a84c;font-family:'Cinzel',serif">$${pot}</span></div>
+      <div class="summary-row"><span>Cashed Out</span><span style="font-family:'Cinzel',serif">$${cashedOut}</span></div>
+      <div class="summary-row"><span>Difference</span><span style="color:${pot-cashedOut===0?'#2ecc71':'#c0392b'};font-family:'Cinzel',serif">$${pot-cashedOut}</span></div>
     </div>`;
-    if (!allCashedOut) { html += '<div class="no-payout">Enter cash out amounts for all players to calculate payouts</div>'; list.innerHTML = html; return; }
-    const debtors = balances.filter(p => p.net < 0).map(p => ({ name: p.name, amount: Math.abs(p.net) }));
-    const creditors = balances.filter(p => p.net > 0).map(p => ({ name: p.name, amount: p.net }));
-    debtors.sort((a,b) => b.amount - a.amount); creditors.sort((a,b) => b.amount - a.amount);
-    const transactions = [], d = debtors.map(x => ({...x})), c = creditors.map(x => ({...x}));
-    let i = 0, j = 0;
-    while (i < d.length && j < c.length) {
-      const amt = Math.min(d[i].amount, c[j].amount);
-      if (amt >= 1) transactions.push({ from: d[i].name, to: c[j].name, amount: Math.round(amt) });
-      d[i].amount -= amt; c[j].amount -= amt;
-      if (d[i].amount < 1) i++; if (c[j].amount < 1) j++;
+    if(!allCashedOut){html+='<div class="no-payout">Enter cash out amounts for all players to calculate payouts</div>';list.innerHTML=html;return;}
+    const debtors=balances.filter(p=>p.net<0).map(p=>({name:p.name,amount:Math.abs(p.net)}));
+    const creditors=balances.filter(p=>p.net>0).map(p=>({name:p.name,amount:p.net}));
+    debtors.sort((a,b)=>b.amount-a.amount);creditors.sort((a,b)=>b.amount-a.amount);
+    const transactions=[],d=debtors.map(x=>({...x})),c=creditors.map(x=>({...x}));
+    let i=0,j=0;
+    while(i<d.length&&j<c.length){
+      const amt=Math.min(d[i].amount,c[j].amount);
+      if(amt>=1)transactions.push({from:d[i].name,to:c[j].name,amount:Math.round(amt)});
+      d[i].amount-=amt;c[j].amount-=amt;
+      if(d[i].amount<1)i++;if(c[j].amount<1)j++;
     }
-    if (transactions.length === 0) { html += '<div class="no-payout">✅ All square! No payments needed.</div>'; }
-    else {
-      html += `<div class="payout-header-label">💸 Who pays whom</div>`;
-      html += transactions.map(t => `<div class="payout-card">
-        <div class="payout-from"><div class="payout-from-label">Pays</div><div class="payout-from-name">${t.from}</div></div>
+    if(transactions.length===0){html+='<div class="no-payout">&#10003; All square! No payments needed.</div>';}
+    else{
+      html+=`<div class="payout-header-label">&#9824; Who pays whom</div>`;
+      html+=transactions.map(t=>`<div class="payout-card">
+        <div style="flex:1"><div class="payout-from-label">Pays</div><div class="payout-from-name">${t.from}</div></div>
         <div class="payout-amount">$${t.amount}</div>
         <div class="payout-to"><div class="payout-to-label">Receives</div><div class="payout-to-name">${t.to}</div></div>
       </div>`).join('');
     }
-    list.innerHTML = html;
+    list.innerHTML=html;
   }
 
-  function toggleHistoryCard(id) {
-    const body = document.getElementById('hbody-' + id);
-    const chev = document.getElementById('hchev-' + id);
-    const isOpen = body.style.display === 'block';
-    body.style.display = isOpen ? 'none' : 'block';
-    chev.classList.toggle('open', !isOpen);
+  function toggleHistoryCard(id){
+    const body=document.getElementById('hbody-'+id);
+    const chev=document.getElementById('hchev-'+id);
+    const isOpen=body.style.display==='block';
+    body.style.display=isOpen?'none':'block';
+    chev.classList.toggle('open',!isOpen);
   }
 
-  function renderHistory() {
-    const list = document.getElementById('history-list');
-    if (gameHistory.length === 0) { list.innerHTML = '<div class="history-empty">No games saved yet.<br><br>Play a game, enter cash outs,<br>then tap ↺ Reset to save here. 🃏</div>'; return; }
-    let html = gameHistory.map(g => {
-      const playerRows = g.players.map(p => {
-        const pnlStr = p.pnl !== null ? (p.pnl >= 0 ? `+$${p.pnl}` : `-$${Math.abs(p.pnl)}`) : '—';
-        const pnlClass = p.pnl !== null ? (p.pnl >= 0 ? 'pnl-positive' : 'pnl-negative') : '';
-        const rebuysStr = p.rebuys > 0 ? ` <span style="color:var(--muted);font-size:10px">+${p.rebuys}R</span>` : '';
+  function renderHistory(){
+    const list=document.getElementById('history-list');
+    if(gameHistory.length===0){list.innerHTML='<div class="history-empty">No games saved yet.<br><br>Play a game, enter cash outs,<br>then tap &#8635; Reset to save here. &#9824;</div>';return;}
+    let html=gameHistory.map(g=>{
+      const playerRows=g.players.map(p=>{
+        const pnlStr=p.pnl!==null?(p.pnl>=0?'+$'+p.pnl:'-$'+Math.abs(p.pnl)):'&#8212;';
+        const pnlClass=p.pnl!==null?(p.pnl>=0?'pnl-positive':'pnl-negative'):'';
+        const rebuysStr=p.rebuys>0?` <span style="color:#7a9a7a;font-size:10px">+${p.rebuys}R</span>`:'';
         return `<div class="history-player-row">
           <div class="avatar" style="background:${p.color};width:24px;height:24px;font-size:9px;flex-shrink:0">${getInitials(p.name)}</div>
           <div class="history-player-name">${p.name}${rebuysStr}</div>
@@ -376,48 +595,45 @@
         <div class="history-card-header" onclick="toggleHistoryCard(${g.id})">
           <div>
             <div class="history-game-name">${g.gameName}</div>
-            <div class="history-date">${g.date} · ${g.time}</div>
+            <div class="history-date">${g.date} &middot; ${g.time}</div>
           </div>
           <div style="display:flex;align-items:center">
             <div class="history-pot">$${g.pot}</div>
-            <div class="history-chevron" id="hchev-${g.id}">▶</div>
+            <div class="history-chevron" id="hchev-${g.id}">&#9654;</div>
           </div>
         </div>
         <div class="history-body" id="hbody-${g.id}">
           <div class="history-summary">
             <div><div class="history-stat-label">Players</div><div class="history-stat-value">${g.playerCount}</div></div>
             <div><div class="history-stat-label">Pot</div><div class="history-stat-value">$${g.pot}</div></div>
-            <div><div class="history-stat-label">🏆 Winner</div><div class="history-stat-value" style="color:var(--accent)">${g.winner}</div></div>
+            <div><div class="history-stat-label">&#127942; Winner</div><div class="history-stat-value" style="color:#c9a84c">${g.winner}</div></div>
           </div>
           <div class="history-players">${playerRows}</div>
         </div>
       </div>`;
     }).join('');
-    html += `<button class="history-clear-btn" onclick="clearHistory()">🗑 CLEAR ALL HISTORY</button>`;
-    list.innerHTML = html;
+    html+=`<button class="history-clear-btn" onclick="clearHistory()">&#128465; CLEAR ALL HISTORY</button>`;
+    list.innerHTML=html;
   }
 
-  function clearHistory() {
-    if (!confirm('Clear all game history? This cannot be undone.')) return;
-    gameHistory = []; saveHistory(); renderHistory();
-  }
+  function clearHistory(){if(!confirm('Clear all game history?'))return;gameHistory=[];saveHistory();renderHistory();}
 
-  function resetGame() {
-    if (players.length === 0) return;
-    if (!confirm('Reset the game? It will be saved to History.')) return;
+  function resetGame(){
+    if(players.length===0)return;
+    if(!confirm('Reset the game? It will be saved to History.'))return;
     saveGameToHistory();
-    players = []; cashouts = {};
-    document.getElementById('game-name').value = 'Friday Night Game';
+    players=[];cashouts={};
+    document.getElementById('game-name').value='Friday Night Game';
     localStorage.removeItem(STORAGE_KEY);
-    render();
-    switchTab('history');
+    render();switchTab('history');
   }
 
-  document.getElementById('custom-name').addEventListener('keydown', e => { if (e.key === 'Enter') addCustomPlayer(); });
+  document.getElementById('custom-name').addEventListener('keydown',e=>{if(e.key==='Enter')addCustomPlayer();});
 
   loadHistory();
-  const restored = loadState();
-  if (restored && activeTab !== 'players') { switchTab(activeTab); } else { render(); }
+  const restored=loadState();
+  if(restored&&activeTab!=='players'){switchTab(activeTab);}else{render();}
 </script>
+
 </body>
 </html>
