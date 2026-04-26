@@ -25,7 +25,7 @@
 }
 
 html, body { width:100%; height:100%; background:var(–bg); color:var(–text); overflow:hidden; font-family:Georgia, serif; }
-.app { width:100vw; height:100vh; height:100dvh; display:flex; flex-direction:column; overflow:hidden; background: radial-gradient(ellipse at top, #2a4a2a 0%, #1a2e1a 60%); position:fixed; top:0; left:0; right:0; bottom:0; }
+.app { width:100vw; height:100vh; height:100dvh; display:flex; flex-direction:column; overflow:hidden; background: radial-gradient(ellipse at top, #2a4a2a 0%, #1a2e1a 60%); }
 
 /* HEADER */
 .header {
@@ -113,14 +113,14 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 .tab { flex:1; padding:10px 4px; text-align:center; font-size:10px; letter-spacing:1px; color:#d0e8d0; cursor:pointer; text-transform:uppercase; font-family:Georgia, serif; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; font-weight:600; }
 .tab.active { color:var(–gold); border-bottom-color:var(–gold); }
 
-.tab-content { flex:1; overflow:hidden; display:none; flex-direction:column; }
+.tab-content { flex:1; overflow:hidden; display:none; flex-direction:column; min-height:0; }
 .tab-content.active { display:flex; }
 
 /* PLAYERS LIST */
 .players-header { display:grid; grid-template-columns:40px 1fr 50px 82px 58px 26px; padding:8px 12px; background:#162c16; border-bottom:1px solid var(–border); flex-shrink:0; }
 .players-header span { font-size:9px; letter-spacing:1px; color:#e0b84a; text-transform:uppercase; font-family:Georgia, serif; font-weight:700; }
 .players-header span:nth-child(3), .players-header span:nth-child(4), .players-header span:nth-child(5) { text-align:center; }
-.players-list { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+.players-list { flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; }
 .player-row {
 display:grid; grid-template-columns:40px 1fr 50px 82px 58px 26px;
 align-items:center; padding:10px 12px;
@@ -139,7 +139,7 @@ background: linear-gradient(90deg, rgba(30,80,30,0.8) 0%, rgba(20,55,20,0.8) 100
 .remove-btn { background:none; border:none; color:#5a3a3a; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 
 /* CASHOUT */
-.cashout-tab { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
+.cashout-tab { flex:1; min-height:0; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:10px; }
 .cashout-card {
 background: linear-gradient(135deg, #1e4a1e 0%, #162e16 100%);
 border:1px solid var(–border-gold); border-radius:12px; padding:12px;
@@ -158,7 +158,7 @@ padding:6px 10px; outline:none; text-align:right; flex-shrink:0;
 .pnl-negative { color:#ff8080; text-shadow:0 0 10px rgba(255,128,128,0.5); }
 
 /* PAYOUT */
-.payout-tab { flex:1; overflow-y:auto; padding:12px; }
+.payout-tab { flex:1; min-height:0; overflow-y:auto; padding:12px; }
 .payout-header-label { font-size:10px; letter-spacing:2px; color:#e0b84a; text-transform:uppercase; margin-bottom:12px; font-family:Georgia, serif; font-weight:700; }
 .payout-card {
 background: linear-gradient(135deg, #1e4a1e 0%, #162e16 100%);
@@ -313,7 +313,7 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
     <div style="display:flex;justify-content:flex-end;padding:6px 12px;background:#1a2e1a;border-bottom:1px solid #3a5a3a;flex-shrink:0;">
       <button onclick="clearHistory()" style="background:none;border:1px solid #6a1010;border-radius:6px;color:#e07070;font-size:10px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">&#128465; CLEAR HISTORY</button>
     </div>
-    <div id="history-list" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:10px;padding-bottom:60px;"></div>
+    <div id="history-list" style="flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 12px 80px;display:flex;flex-direction:column;gap:10px;"></div>
   </div>
 
 </div>
