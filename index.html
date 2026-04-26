@@ -234,8 +234,6 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
 .save-indicator { position:fixed; bottom:14px; right:14px; background:#1e421e; border:1px solid var(–gold3); border-radius:20px; padding:6px 14px; font-size:10px; color:var(–gold); letter-spacing:1px; opacity:0; transition:opacity 0.4s; pointer-events:none; z-index:100; font-family:Georgia, serif; }
 .save-indicator.show { opacity:1; }
 
-.history-scroll { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:12px 12px 12px; display:flex; flex-direction:column; gap:10px; }
-.history-footer { flex-shrink:0; padding:10px 12px 16px; background:#1a2e1a; border-top:1px solid #3a5a3a; }
 ::-webkit-scrollbar { width:3px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(–border-gold); border-radius:2px; }
@@ -317,10 +315,7 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
   </div>
 
   <div class="tab-content" id="tab-history">
-    <div class="history-tab">
-      <div class="history-scroll" id="history-list"></div>
-      <div class="history-footer" id="history-footer"></div>
-    </div>
+    <div class="history-tab" id="history-list"></div>
   </div>
 
 </div>
@@ -576,10 +571,8 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
 
   function renderHistory(){
     const list=document.getElementById('history-list');
-    const footer=document.getElementById('history-footer');
     if(gameHistory.length===0){
       list.innerHTML='<div class="history-empty">No games saved yet.<br><br>Play a game, enter cash outs,<br>then tap &#8635; Reset to save here. &#9824;</div>';
-      if(footer) footer.innerHTML='';
       return;
     }
     let html=gameHistory.map(g=>{
