@@ -114,7 +114,7 @@ box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 .tab.active { color:var(–gold); border-bottom-color:var(–gold); }
 
 .tab-content { flex:1; overflow:hidden; display:none; flex-direction:column; }
-.tab-content.active { display:flex; overflow:hidden; }
+.tab-content.active { display:flex; }
 
 /* PLAYERS LIST */
 .players-header { display:grid; grid-template-columns:40px 1fr 50px 82px 58px 26px; padding:8px 12px; background:#162c16; border-bottom:1px solid var(–border); flex-shrink:0; }
@@ -178,7 +178,7 @@ display:flex; align-items:center; gap:8px;
 .summary-row span:first-child { color:#d0e8d0; font-style:italic; font-weight:400; }
 
 /* HISTORY */
-.history-tab { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:12px 12px 120px; display:flex; flex-direction:column; gap:10px; }
+.history-tab { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:12px; padding-bottom:60px; }
 .history-empty { text-align:center; color:var(–muted); padding:40px 20px; font-size:15px; line-height:1.8; font-style:italic; }
 .history-card { background:linear-gradient(135deg,#1e421e,#162c16); border:1px solid var(–border-gold); border-radius:12px; overflow:hidden; }
 .history-card-header { padding:14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
@@ -313,7 +313,7 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
     <div style="display:flex;justify-content:flex-end;padding:6px 12px;background:#1a2e1a;border-bottom:1px solid #3a5a3a;flex-shrink:0;">
       <button onclick="clearHistory()" style="background:none;border:1px solid #6a1010;border-radius:6px;color:#e07070;font-size:10px;padding:4px 10px;cursor:pointer;letter-spacing:1px;">&#128465; CLEAR HISTORY</button>
     </div>
-    <div class="history-tab" id="history-list"></div>
+    <div id="history-list" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:10px;padding-bottom:60px;"></div>
   </div>
 
 </div>
