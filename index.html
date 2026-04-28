@@ -198,6 +198,11 @@ display:flex; align-items:center; gap:8px;
 .history-player-pnl { font-size:14px; font-weight:700; min-width:60px; text-align:right; font-family:Georgia, serif; }
 .history-clear-btn { display:none; }
 
+/* PLAYER PICKER */
+.pp-item { padding:10px 14px; background:#1e3a1e; color:#d0e8d0; font-family:Georgia,serif; font-size:14px; cursor:pointer; transition:background 0.15s; }
+.pp-item.selected { background:#2a5a1a; color:#f8e070; font-weight:bold; }
+.pp-item.selected::before { content:’✓ ’; }
+
 /* PIN MODAL */
 .pin-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:200; display:none; align-items:center; justify-content:center; }
 .pin-overlay.show { display:flex; }
@@ -266,16 +271,34 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
   </div>
 
   <div class="add-player-bar">
-    <select id="player-select">
-      <option value="">Select player...</option>
-      <option>Rajeev</option><option>Sriram</option><option>Kishore</option>
-      <option>Rao</option><option>Venkat</option><option>Kumar</option>
-      <option>Ranga</option><option>Ramesh</option><option>Ravi</option>
-      <option>Shiva</option><option>Krishna</option><option>Bhavani</option>
-      <option>Gopi</option><option>Vijo</option><option>Kasi</option><option>Leela</option>
-    </select>
+    <button class="add-btn" style="flex:1;text-align:left;padding-left:12px;background:linear-gradient(180deg,#1a3a1a,#0e2a0e);color:#a8c8a8;font-weight:normal;letter-spacing:0;font-size:13px;" onclick="togglePlayerPicker()">
+      <span id="picker-label">&#9662; Select players to add...</span>
+    </button>
     <input type="number" class="buyin-input" id="new-player-buyin" placeholder="$" />
-    <button class="add-btn" onclick="addPlayer()">+ ADD</button>
+    <button class="add-btn" onclick="addSelectedPlayers()">+ ADD</button>
+  </div>
+
+  <!-- PLAYER PICKER PANEL -->
+
+  <div id="player-picker" style="display:none;background:#1a2e1a;border-bottom:2px solid #a07820;flex-shrink:0;max-height:220px;overflow-y:auto;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#3a5a3a;">
+      <div onclick="togglePlayer('Rajeev')" id="pp-Rajeev" class="pp-item">Rajeev</div>
+      <div onclick="togglePlayer('Sriram')" id="pp-Sriram" class="pp-item">Sriram</div>
+      <div onclick="togglePlayer('Kishore')" id="pp-Kishore" class="pp-item">Kishore</div>
+      <div onclick="togglePlayer('Rao')" id="pp-Rao" class="pp-item">Rao</div>
+      <div onclick="togglePlayer('Venkat')" id="pp-Venkat" class="pp-item">Venkat</div>
+      <div onclick="togglePlayer('Kumar')" id="pp-Kumar" class="pp-item">Kumar</div>
+      <div onclick="togglePlayer('Ranga')" id="pp-Ranga" class="pp-item">Ranga</div>
+      <div onclick="togglePlayer('Ramesh')" id="pp-Ramesh" class="pp-item">Ramesh</div>
+      <div onclick="togglePlayer('Ravi')" id="pp-Ravi" class="pp-item">Ravi</div>
+      <div onclick="togglePlayer('Shiva')" id="pp-Shiva" class="pp-item">Shiva</div>
+      <div onclick="togglePlayer('Krishna')" id="pp-Krishna" class="pp-item">Krishna</div>
+      <div onclick="togglePlayer('Bhavani')" id="pp-Bhavani" class="pp-item">Bhavani</div>
+      <div onclick="togglePlayer('Gopi')" id="pp-Gopi" class="pp-item">Gopi</div>
+      <div onclick="togglePlayer('Vijo')" id="pp-Vijo" class="pp-item">Vijo</div>
+      <div onclick="togglePlayer('Kasi')" id="pp-Kasi" class="pp-item">Kasi</div>
+      <div onclick="togglePlayer('Leela')" id="pp-Leela" class="pp-item">Leela</div>
+    </div>
   </div>
 
   <div class="custom-bar" id="custom-bar">
@@ -435,7 +458,41 @@ box-shadow: inset 0 1px 0 rgba(201,168,76,0.1);
     if(customOpen) document.getElementById('custom-name').focus();
   }
 
-  function addPlayer(){const sel=document.getElementById('player-select');const name=sel.value.trim();if(!name){sel.focus();return;}addPlayerByName(name);sel.value='';}
+  let selectedPlayers = new Set();
+
+  function togglePlayerPicker() {
+    const picker = document.getElementById('player-picker');
+    const isOpen = picker.style.display !== 'none';
+    picker.style.display = isOpen ? 'none' : 'block';
+    document.getElementById('picker-label').textContent = isOpen ? '▾ Select players to add...' : '▴ Select players to add...';
+  }
+
+  function togglePlayer(name) {
+    const el = document.getElementById('pp-' + name);
+    if (selectedPlayers.has(name)) {
+      selectedPlayers.delete(name);
+      el.classList.remove('selected');
+    } else {
+      selectedPlayers.add(name);
+      el.classList.add('selected');
+    }
+    const count = selectedPlayers.size;
+    document.getElementById('picker-label').textContent = count > 0 ? '▴ ' + count + ' player' + (count>1?'s':'') + ' selected' : '▴ Select players to add...';
+  }
+
+  function addSelectedPlayers() {
+    if (selectedPlayers.size === 0) {
+      document.getElementById('player-picker').style.display = 'block';
+      return;
+    }
+    selectedPlayers.forEach(name => addPlayerByName(name));
+    selectedPlayers.clear();
+    document.querySelectorAll('.pp-item').forEach(el => el.classList.remove('selected'));
+    document.getElementById('player-picker').style.display = 'none';
+    document.getElementById('picker-label').textContent = '▾ Select players to add...';
+  }
+
+  function addPlayer(){const sel=document.getElementById('player-select');if(sel){const name=sel.value.trim();if(!name)return;addPlayerByName(name);sel.value='';}}
   function addCustomPlayer(){const input=document.getElementById('custom-name');const name=input.value.trim();if(!name){input.focus();return;}addPlayerByName(name);input.value='';toggleCustom();}
 
   function addPlayerByName(name){
